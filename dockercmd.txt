@@ -1,0 +1,93 @@
+for each command don't forget to "docker COMMAND":
+    run SERVICE - start a container
+    ps - list containers
+    ps -a
+    stop NAMEorID - stop a containner
+    rm NAMEorID - remove a container
+    images - list images
+    rmi - remove images (delete all dependent containers to remove image)
+    pull SERVICE - download an image
+    exec -it SERVICE 
+    port mapping: docker run -p 80:5000 SERVICE
+    (docker run -p NEWPORT:OLDPORT SERVICE)
+
+
+volume mapping: docker run -v /opt/datadir:/varlib/mysql mysql  <-- Create if the volume doesn' exist.
+(docker run -v NEWDIRECTORY:OLDDIRECTORY SERVICE)
+
+docker insepect SERVICE - inspect container
+
+docker logs SERVICE - container logs
+
+
+NETWORK
+
+docket network create \
+--driver bridge \ 
+--subnet ip/port
+custom-isolated-network
+
+docker network ls
+
+inspect give network info
+
+VOLUMES
+
+docker voulume create NAMEorI
+-------------------------------------------------------------
+docker run -d --name=NAME ip:port service
+docker run -d --name=NAME ip:port --link name:host service
+
+docker run -d --name=nginx ip:port service
+
+docker container run -d -p 8080:50 --name mynginx nginx
+
+Docker compose
+
+docker-compose.yml
+        name:
+            image: "SERVICE"
+            ports:
+                - ip:port (example: 5000:80)
+            links:
+                -service
+
+docker-compose.yml           
+version : 2
+    (image)services:
+        name:
+            image: "SERVICE"
+            ports:
+                - ip:port (example: 5000:80)
+            depends_on:
+                - service
+    (build)services:
+        name:
+            build: ./name (directory)
+            ports:
+                - ip:port (example: 5000:80)
+            depends_on:
+                - service
+            networks:
+                - frontend
+                - backend
+networks:
+    frontend:
+    backend:
+
+docker-compose up
+
+------
+
+mysql launch: 
+sudo docker exec -it docker_kiloupabocou_db_1 bash
+sudo docker exec -it db bash
+mysql -u[username] -p[password]  (root, 4242) (newuser 1234)
+
+create user:
+    CREATE USER 'newuser'@'localhost' IDENTIFIED BY '1234';
+    GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
+    FLUSH PRIVILEGES;
+
+db info:
+    show databases;
